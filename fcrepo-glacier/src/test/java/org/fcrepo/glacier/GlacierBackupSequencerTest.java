@@ -59,7 +59,8 @@ public class GlacierBackupSequencerTest
     		when(upload.getLocation()).thenReturn(UPLOAD_LOC);
         	AmazonGlacierClient client = mock(AmazonGlacierClient.class);
         	when(client.uploadArchive(any(UploadArchiveRequest.class))).thenReturn(upload);
-        	Sequencer test = new GlacierBackupSequencer(client,DEFAULT_ARCHIVE);
+        	GlacierBackupSequencer test = new GlacierBackupSequencer();
+        	test.client = client;
         	Property input = mock(Property.class);
         	InMemoryBinaryValue binary = mock(InMemoryBinaryValue.class);
         	String binString = "the quick brown fox";
@@ -87,7 +88,8 @@ public class GlacierBackupSequencerTest
     		when(upload.getLocation()).thenReturn(UPLOAD_LOC);
         	AmazonGlacierClient client = mock(AmazonGlacierClient.class);
         	when(client.uploadArchive(any(UploadArchiveRequest.class))).thenReturn(upload);
-        	Sequencer test = new GlacierBackupSequencer(client,DEFAULT_ARCHIVE);
+        	GlacierBackupSequencer test = new GlacierBackupSequencer();
+        	test.client = client;
         	Property input = mock(Property.class);
         	InMemoryBinaryValue binary = mock(InMemoryBinaryValue.class);
         	String binString = "the quick brown fox";

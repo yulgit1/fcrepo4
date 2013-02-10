@@ -7,9 +7,7 @@
     <groupId>org.fcrepo</groupId>
     <version>4.0-SNAPSHOT</version>
   </parent>
-  <groupId>org.fcrepo</groupId>
   <artifactId>fcrepo-glacier</artifactId>
-  <version>4.0-SNAPSHOT</version>
   <name>fcrepo-glacier</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -19,13 +17,11 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.modeshape</groupId>
     	<artifactId>modeshape-jcr-api</artifactId>
-    	<version>${modeshape.version}</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -40,7 +36,25 @@
     <dependency>
     	<groupId>org.modeshape</groupId>
     	<artifactId>modeshape-jcr</artifactId>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.modeshape</groupId>
+    	<artifactId>modeshape-jcr</artifactId>
     	<version>${modeshape.version}</version>
+    	<scope>test</scope>
+    	<classifier>tests</classifier>
+    </dependency>
+    <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-core</artifactId>
+        <version>5.2.0.Final</version>
+    	<classifier>tests</classifier>
+      </dependency>
+
+    <dependency>
+    	<groupId>ch.qos.logback</groupId>
+    	<artifactId>logback-classic</artifactId>
     </dependency>
   </dependencies>
 </project>

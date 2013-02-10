@@ -1,0 +1,5 @@
+[org.fcrepo:glacier-candidate] > nt:resource mixin
+[org.fcrepo:glacier-backup] > org.fcrepo:glacier-candidate mixin query primaryitem org.fcrepo.glacier:location
+- org.fcrepo.glacier:checksum (STRING) mandatory
+- org.fcrepo.glacier:archive-id (STRING) mandatory
+- org.fcrepo.glacier:location (STRING) mandatory

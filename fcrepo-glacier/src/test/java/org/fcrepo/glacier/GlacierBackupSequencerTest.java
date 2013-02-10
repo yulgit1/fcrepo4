@@ -51,7 +51,7 @@ public class GlacierBackupSequencerTest
     /**
      * Rigourous Test :-)
      */
-    public void testSequencer()
+    public void testSequencerValid()
     {
     	try {
     		UploadArchiveResult upload = mock(UploadArchiveResult.class);
@@ -66,14 +66,40 @@ public class GlacierBackupSequencerTest
         	StringInputStream binValue = new StringInputStream(binString);
         	when(binary.getSize()).thenReturn(Long.valueOf(binString.getBytes().length));
         	when(binary.getStream()).thenReturn(binValue);
-            when(input.getName()).thenReturn(JcrConstants.JCR_CONTENT);
+            when(input.getName()).thenReturn(JcrConstants.JCR_DATA);
             when(input.getBinary()).thenReturn(binary);
             Node output = mock(Node.class);
+            when(output.canAddMixin(GlacierBackupSequencer.GLACIER_BACKUP_MIXIN)).thenReturn(true);
             Context context = mock(Context.class);
             assertTrue(test.execute(input, output, context));
 			verify(output).setProperty(GlacierBackupSequencer.GLACIER_ARCHIVE_ID_PROPERTY, UPLOAD_ID);
-			verify(output).setProperty(GlacierBackupSequencer.GLACIER_URI_PROPERTY, UPLOAD_LOC);
-            when(input.getName()).thenReturn(JcrConstants.JCR_DATA);
+			verify(output).setProperty(GlacierBackupSequencer.GLACIER_LOCATION_PROPERTY, UPLOAD_LOC);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.toString());
+		}
+    }
+    public void testSequencerInvalid()
+    {
+    	try {
+    		UploadArchiveResult upload = mock(UploadArchiveResult.class);
+    		when(upload.getArchiveId()).thenReturn(UPLOAD_ID);
+    		when(upload.getLocation()).thenReturn(UPLOAD_LOC);
+        	AmazonGlacierClient client = mock(AmazonGlacierClient.class);
+        	when(client.uploadArchive(any(UploadArchiveRequest.class))).thenReturn(upload);
+        	Sequencer test = new GlacierBackupSequencer(client,DEFAULT_ARCHIVE);
+        	Property input = mock(Property.class);
+        	InMemoryBinaryValue binary = mock(InMemoryBinaryValue.class);
+        	String binString = "the quick brown fox";
+        	StringInputStream binValue = new StringInputStream(binString);
+        	when(binary.getSize()).thenReturn(Long.valueOf(binString.getBytes().length));
+        	when(binary.getStream()).thenReturn(binValue);
+            when(input.getName()).thenReturn(JcrConstants.JCR_PATH);
+            when(input.getBinary()).thenReturn(binary);
+            Node output = mock(Node.class);
+            when(output.canAddMixin(GlacierBackupSequencer.GLACIER_BACKUP_MIXIN)).thenReturn(false);
+            Context context = mock(Context.class);
+			verify(output, times(0)).setProperty(anyString(), anyString());
             assertFalse(test.execute(input, output, context));
 		} catch (Exception e) {
 			e.printStackTrace();

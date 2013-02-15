@@ -1,4 +1,4 @@
-package org.fcrepo.spring;
+package org.fcrepo.jcr;
 
 import java.lang.annotation.RetentionPolicy;
 

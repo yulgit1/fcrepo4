@@ -13,7 +13,10 @@
     <logger name="org.modeshape" additivity="false" level="INFO">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.apache.cxf" additivity="false" level="INFO">
+    <logger name="org.apache.webbeans" additivity="false" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.ops4j.pax" additivity="false" level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </logger>
     <root additivity="false" level="INFO">

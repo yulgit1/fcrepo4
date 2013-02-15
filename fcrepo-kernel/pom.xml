@@ -15,6 +15,10 @@
 
   <description>The Fedora repository kernel</description>
 
+  <properties>
+    <ops4j.version>3.0.0</ops4j.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.modeshape</groupId>
@@ -40,21 +44,28 @@
       <groupId>org.jboss.jbossts</groupId>
       <artifactId>jbossjta</artifactId>
     </dependency>
-
-    <!-- Logging: we'll use LogBack (which implements the SLF4J API); ModeShape 
-      knows what to do. -->
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
       <!-- spring-test (v. 3.2.0-RELEASE) currently depends on commons-logging -->
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+    <!-- Logging: we'll use LogBack (which implements the SLF4J API); ModeShape 
+      knows what to do. -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
     </dependency>
     <!-- test gear -->
     <dependency>
@@ -63,16 +74,21 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-container-openwebbeans</artifactId>
+      <version>${ops4j.version}</version>
+      <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-junit4</artifactId>
+      <version>${ops4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

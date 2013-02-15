@@ -1,68 +1,84 @@
+
 package org.fcrepo.observer;
 
+import static org.fcrepo.utils.FedoraJcrTypes.FEDORA_DATASTREAM;
+import static org.fcrepo.utils.FedoraJcrTypes.FEDORA_OBJECT;
 import static org.junit.Assert.assertEquals;
+import static org.modeshape.jcr.api.JcrConstants.JCR_DATA;
+import static org.modeshape.jcr.api.JcrConstants.NT_RESOURCE;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.jcr.Node;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.observation.Event;
 
 import org.fcrepo.AbstractTest;
+import org.fcrepo.eventing.FedoraEvent;
+import org.fcrepo.eventing.FedoraEventBus;
+import org.fcrepo.eventing.SimpleObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-@ContextConfiguration({ "/spring-test/eventing.xml", "/spring-test/repo.xml" })
 public class SimpleObserverTest extends AbstractTest {
 
-	private Integer eventBusMessageCount;
-	@Inject
-	private Repository repository;
+    private Integer eventBusMessageCount;
 
-	@Inject
-	private EventBus eventBus;
+    @Inject
+    private SimpleObserver observer;
 
-	@Test
-	public void TestEventBusPublishing() throws RepositoryException {
+    @Inject
+    private Repository repository;
 
-		Session se = repository.login();
-		se.getRootNode().addNode("/object1").addMixin("fedora:object");
-		se.getRootNode().addNode("/object2").addMixin("fedora:object");
-		se.save();
-		se.logout();
+    @Inject
+    private FedoraEventBus eventBus;
 
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    @Test
+    public void TestEventBusPublishing() throws RepositoryException {
 
-		// Should be two messages, for each time
-		// each node becomes a Fedora object
+        Session se = repository.login();
+        final Node obj = se.getRootNode().addNode("object1");
+        obj.addMixin(FEDORA_OBJECT);
+        final Node ds = obj.addNode("datastream");
+        ds.addMixin(FEDORA_DATASTREAM);
+        ds.addNode("jcr:content", NT_RESOURCE).setProperty(JCR_DATA,
+                "test datastream");
+        se.save();
+        se.logout();
 
-		assertEquals("Where are my messages!?", (Integer) 2,
-				eventBusMessageCount);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-	}
+        // Should be two messages, for each time
+        // each node becomes a Fedora object
 
-	@Subscribe
-	public void countMessages(Event e) {
-		eventBusMessageCount++;
-	}
+        assertEquals("Where are my messages!?", (Integer) 2,
+                eventBusMessageCount);
 
-	@Before
-	public void acquireConnections() {
-		eventBusMessageCount = 0;
-		eventBus.register(this);
-	}
+    }
 
-	@After
-	public void releaseConnections() {
-		eventBus.unregister(this);
-	}
+    @Subscribe
+    public void countMessages(FedoraEvent e) {
+        eventBusMessageCount++;
+    }
+
+    @Before
+    public void acquireConnections() {
+        eventBusMessageCount = 0;
+        eventBus.register(this);
+
+    }
+
+    @After
+    public void releaseConnections() throws Exception {
+        eventBus.unregister(this);
+    }
+
 }

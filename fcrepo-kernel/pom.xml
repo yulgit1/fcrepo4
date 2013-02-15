@@ -20,25 +20,25 @@
       <groupId>org.modeshape</groupId>
       <artifactId>modeshape-jcr</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.infinispan</groupId>
       <artifactId>infinispan-core</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.jgroups</groupId>
       <artifactId>jgroups</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.modeshape</groupId>
       <artifactId>modeshape-jcr-api</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.jboss.jbossts</groupId>
       <artifactId>jbossjta</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
     </dependency>
 
     <!-- Logging: we'll use LogBack (which implements the SLF4J API); ModeShape 
@@ -52,9 +52,8 @@
       <artifactId>javax.inject</artifactId>
     </dependency>
     <dependency>
-      <!-- spring-test (v. 3.2.0-RELEASE) currently depends on commons-logging -->
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
     <!-- test gear -->
     <dependency>
@@ -62,16 +61,12 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-container-openwebbeans</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-junit4</artifactId>
     </dependency>
   </dependencies>
 

@@ -12,12 +12,10 @@ import org.fcrepo.AbstractTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-@ContextConfiguration({ "/spring-test/eventing.xml", "/spring-test/repo.xml" })
 public class SimpleObserverTest extends AbstractTest {
 
 	private Integer eventBusMessageCount;

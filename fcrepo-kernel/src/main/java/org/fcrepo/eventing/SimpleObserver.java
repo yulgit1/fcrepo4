@@ -1,17 +1,17 @@
 
-package org.fcrepo.observer;
+package org.fcrepo.eventing;
 
 import static com.google.common.collect.Collections2.filter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.modeshape.jcr.api.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

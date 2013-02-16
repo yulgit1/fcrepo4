@@ -1,6 +1,8 @@
 
 package org.fcrepo.api.legacy;
 
+import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.TimeUnit;
@@ -15,13 +17,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.junit.PaxExam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-test/master.xml")
+@RunWith(PaxExam.class)
 public abstract class AbstractResourceTest {
 
     protected Logger logger;
@@ -74,6 +76,12 @@ public abstract class AbstractResourceTest {
         logger.debug("Executing: " + method.getMethod() + " to " +
                 method.getURI());
         return client.execute(method).getStatusLine().getStatusCode();
+    }
+
+    @Configuration
+    public Option[] config() {
+        Option[] config = {junitBundles()};
+        return config;
     }
 
 }

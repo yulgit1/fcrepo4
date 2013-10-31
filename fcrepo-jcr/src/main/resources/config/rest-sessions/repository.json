@@ -33,5 +33,20 @@
             { "classname" : "org.fcrepo.http.commons.session.BypassSecurityServletAuthenticationProvider" }
         ]
     },
+	"externalSources" : {
+    	"large-files" : {
+            "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+            "directoryPath" : "F:/ff/large-files",
+            "projections" : [ "default:/lf-URLBased => /" ],
+            "extraPropertiesStorage" : "none",
+            "contentBasedSha1" : "false"
+        } ,
+        "large-files-default" : {
+            "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+            "directoryPath" : "F:/ff/large-files-default",
+            "projections" : [ "default:/lf-contentBased => /" ],
+            "extraPropertiesStorage" : "none"
+        }
+	},
     "node-types" : ["fedora-node-types.cnd"]
 }

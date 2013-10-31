@@ -1,0 +1,40 @@
+{
+    "name" : "repo",
+    "jndiName" : "",
+    "workspaces" : {
+        "predefined" : [],
+        "default" : "default",
+        "allowCreation" : true
+    },
+    "storage" : {
+        "binaryStorage" : {
+            "type" : "transient",
+            "minimumBinarySizeInBytes" : 1
+        }
+    },
+    "security" : {
+        "anonymous" : {
+            "roles" : ["readonly","readwrite","admin"],
+            "useOnFailedLogin" : false
+        },
+        "providers" : [
+            { "classname" : "org.fcrepo.http.commons.session.BypassSecurityServletAuthenticationProvider" }
+        ]
+    },
+	"externalSources" : {
+    	"huge-files-cbFalse" : {
+            "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+            "directoryPath" : "F:/ff/huge-files-cbFalse",
+            "projections" : [ "default:/huge-files-cbFalse => /" ],
+            "extraPropertiesStorage" : "none",
+            "contentBasedSha1" : "false"
+        } ,
+        "huge-files-cbTrue" : {
+            "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+            "directoryPath" : "F:/ff/huge-files-cbTrue",
+            "projections" : [ "default:/huge-files-cbTrue => /" ],
+            "extraPropertiesStorage" : "none"
+        }
+	},
+    "node-types" : ["fedora-node-types.cnd"]
+}

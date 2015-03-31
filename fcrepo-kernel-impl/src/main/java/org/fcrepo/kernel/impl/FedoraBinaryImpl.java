@@ -19,6 +19,8 @@ import com.codahale.metrics.Counter;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Timer;
 import com.hp.hpl.jena.rdf.model.Resource;
+import org.fcrepo.kernel.impl.observer.FedoraObserver;
+import org.fcrepo.kernel.impl.observer.SimpleObserver;
 import org.fcrepo.kernel.models.NonRdfSourceDescription;
 import org.fcrepo.kernel.models.FedoraBinary;
 import org.fcrepo.kernel.models.FedoraResource;
@@ -37,6 +39,7 @@ import org.modeshape.jcr.api.Binary;
 import org.modeshape.jcr.api.ValueFactory;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
@@ -74,6 +77,12 @@ public class FedoraBinaryImpl extends FedoraResourceImpl implements FedoraBinary
 
     static final Histogram contentSizeHistogram =
             registryService.getMetrics().histogram(name(FedoraBinary.class, "content-size"));
+
+    @Inject
+    private FedoraObserver fedoraObserver;
+
+    @Inject
+    private SimpleObserver simpleObserver;
 
     /**
      * Wrap an existing Node as a Fedora Binary
@@ -291,7 +300,11 @@ public class FedoraBinaryImpl extends FedoraResourceImpl implements FedoraBinary
             final Collection<FixityResult> fixityResults
                     = CacheEntryFactory.forProperty(repo, getProperty(JCR_DATA)).checkFixity(algorithm);
 
-            return new FixityRdfContext(this, idTranslator, fixityResults, digestUri, size);
+            final RdfStream fixityRdf = new FixityRdfContext(this, idTranslator, fixityResults, digestUri, size);
+            //new FedoraObserver().createFixityEvent(fixityRdf);
+            fedoraObserver.onFixityEvent();
+            simpleObserver.onFixityEvent();
+            return fixityRdf;
         } catch (final RepositoryException e) {
             throw new RepositoryRuntimeException(e);
         }

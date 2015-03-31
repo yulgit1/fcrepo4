@@ -76,6 +76,9 @@ public class SimpleObserver implements EventListener {
     private EventBus eventBus;
 
     @Inject
+    private EventBus staticEventBus;
+
+    @Inject
     private InternalExternalEventMapper eventMapper;
 
     @Inject
@@ -139,5 +142,12 @@ public class SimpleObserver implements EventListener {
                 lookupSession.logout();
             }
         }
+    }
+
+    /**
+     * onFixityEvent triggered in FedoraBinaryImpl
+     */
+    public void onFixityEvent() {
+        LOGGER.debug("in onFixityEvent");
     }
 }
